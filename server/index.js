@@ -1,11 +1,38 @@
-[33mcommit 7a326b512189588ef5a5929eeacfa5a4840da656[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
-Author: Ayush <ayushkk9893@gmail.com>
-Date:   Fri Jun 30 14:25:19 2023 +0530
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
 
-    first commit
+import userRoutes from "./routes/users.js";
+import questionRoutes from "./routes/Questions.js";
+import answerRoutes from "./routes/Answers.js";
 
-[33mcommit d8944832f4e68f1d19906fd118ee4eebe715724b[m
-Author: Ayush <ayushkk9893@gmail.com>
-Date:   Thu Jun 29 21:41:38 2023 +0530
+dotenv.config();
+connectDB();
+const app = express();
+app.use(express.json({ limit: "30mb", extended: true }));
+app.use(express.urlencoded({ limit: "30mb", extended: true }));
+app.use(cors());
 
-    first commit
+app.get("/", (req, res) => {
+  res.send("This is a stack overflow clone API");
+});
+
+app.use("/user", userRoutes);
+app.use("/questions", questionRoutes);
+app.use("/answer", answerRoutes);
+
+const PORT = process.env.PORT || 5000;
+
+const DATABASE_URL = process.env.CONNECTION_URL;
+
+mongoose
+  .connect(DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+
+    .then(() => 
+        app.listen(PORT, () => 
+            console.log(`server running on port ${PORT}`)
+    )).catch((err) => {
+        console.log(err.message)
+    });
+  
