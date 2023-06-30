@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://stack-overflowclone-kpph.onrender.com" });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("Profile")) {
@@ -29,7 +29,7 @@ export const postAnswer = (id, noOfAnswers, answerBody, userAnswered, userId) =>
     userId,
   });
 export const deleteAnswer = (id, answerId, noOfAnswers) =>
-  API.patch(`answer/delete/${id}`, { answerId, noOfAnswers });
+  API.patch(`/answer/delete/${id}`, { answerId, noOfAnswers });
 
 export const fetchAllUsers = () => API.get("/user/getAllUsers");
 export const updateProfile = (id, updateData) =>
